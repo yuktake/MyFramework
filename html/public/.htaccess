@@ -1,0 +1,10 @@
+# Ensure the Apache Rewrite Engine is on
+RewriteEngine On
+
+# Exclude static files from being rewritten
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Rewrite rule to redirect all other requests to index.php
+RewriteRule ^(.*)$ index.php [QSA,L]

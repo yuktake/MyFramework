@@ -1,0 +1,48 @@
+version: '3'
+services:
+  # DB コンテナ
+  db:
+    platform: linux/x86_64
+    logging:
+      driver: json-file
+      options:
+        max-file: '1'
+        max-size: 3m
+    build:
+      context: ./env/mysql
+      dockerfile: Dockerfile
+    # MYSQLのユーザ設定
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: My_Framework
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+      TZ: 'Asia/Tokyo'
+    # mbind: Operation not permitted が出る問題を回避
+    cap_add:
+          - SYS_NICE
+    volumes:
+    - ./env/mysql/data:/var/lib/mysql
+    - ./env/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    - ./env/mysql/sql:/docker-entrypoint-initdb.d
+    ports:
+    - 3306:3306
+
+  # Apache コンテナ
+  web:
+    platform: linux/x86_64
+    logging:
+      driver: json-file
+      options:
+        max-file: '1'
+        max-size: 3m
+    build:
+      context: ./env/php-apache
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    volumes:
+      - ./html:/var/www/html
+      - ./env/php-apache/php.ini:/usr/local/etc/php/php.ini
+      - ./env/php-apache/apache2.conf:/etc/apache2/apache2.conf
+      - ./env/php-apache/000-default.conf:/etc/apache2/sites-available/000-default.conf

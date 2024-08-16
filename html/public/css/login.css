@@ -1,0 +1,70 @@
+html, body {
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+  }
+  html {
+    background-color:rgba(85, 143, 160, 1);
+    background-image: linear-gradient(150deg, rgba(255, 255, 255, 1), rgba(164, 197, 207, 1) 30%, rgba(85, 143, 160, 1) 75%, rgba(20, 106, 130, 1));
+  }
+  
+  div#form{
+    width:360px;
+    margin:auto;
+    border-radius:5px;
+    background-color:transparent;
+    padding-top:80px;
+  }
+
+  div.form-item{
+    position: relative; display: block; margin-bottom: 20px; text-align: center;
+  }
+  input{
+    transition: all .2s ease;
+  }
+  input.form-style {
+    color:#8a8a8a;
+    display: block;
+    width: 90%;
+    height: 44px;
+    padding: 5px 5%;
+    border:1px solid #ccc;
+    -moz-border-radius: 27px;
+    -webkit-border-radius: 27px;
+    border-radius: 27px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    background-color: #fff;
+    font-family:'HelveticaNeue','Arial', sans-serif;
+    font-size: 105%;
+    letter-spacing: .8px;
+  }
+  input.form-style::placeholder { color:#bbb; }
+  input.form-style:focus::placeholder { color:#fff; }
+  div.form-item .form-style:focus{ outline: none; border:1px solid #58bff6; color:#58bff6; }
+  div.form-item label { position: absolute;left:26px;top:18px;transition:all .4s ease;color:#bbb; z-index:-1; }
+
+  .formTop{ top:-22px !important; left:26px; background-color: #fff; padding:0 5px; font-size: 14px; color:#58bff6 !important; }
+  .formStatus{ color:#8a8a8a !important; }
+
+  .form-item input:focus + label,
+  .form-item input.filled + label,
+  .form-item input:not(:placeholder-shown) + label {
+    font-size: 11px;
+    line-height: 12px;
+    top: 4px;
+    z-index:1;
+  }
+
+  input[type="submit"].login{
+    width: 112px;height: 37px;-moz-border-radius: 4px;-webkit-border-radius: 4px;
+    border-radius: 4px;-moz-background-clip: padding;-webkit-background-clip: padding-box;
+    background-clip: padding-box;background-color: #203C64;border:1px solid #55b1df;
+    border:none;color: #fff;font-weight: bold;}
+  input[type="submit"].login:hover{ background-color: #fff; border:1px solid #203C64; color:#203C64; cursor:pointer; }
+  input[type="submit"].login:focus{ outline: none; }
+  
+  @media screen and (max-width:767px) {
+  }

@@ -7,9 +7,12 @@ class View
 {
     protected array $_defaultData = [];
 
-    public function __construct()
-    {
-        $this->_defaultData['escape'] = $this->escape();
+    public function __construct() {
+        // envから参照すると良いかもしれない
+        $this->_defaultData = [
+            'title' => 'Title',
+            'description' => 'Description',
+        ];
     }
 
     public function render($_file_path_after_templates_dir, $_data = array())
@@ -26,16 +29,33 @@ class View
         // ため込んだ出力を$contentに代入します。
         $content = ob_get_clean();
 
-        return $content;
-    }
+        $currentDir = dirname($_file);
+        $currentPath = str_replace(DirectorySettings::TEMPLATES_ROOT_DIR, '', dirname($_file).'/');
 
-    public function escape()
-    {
-        return function ($string, $echo = true) {
-            $value = htmlspecialchars($string, ENT_QUOTES < 'UTF-8');
-            if (!$echo)
-                return $value;
-            echo $value;
-        };
+        // 該当ファイルと同じ階層から見て、layouts/app.phpが存在する場合はそれを読み込む。
+        // 階層ごとに使用するレイアウトを変えることができる。
+        if (file_exists($currentDir . '/layouts/app.php')) {
+            $layout_components = scandir($currentDir . '/layouts/');
+            $variables = [];
+            foreach($layout_components as $layout_component) {
+                if ($layout_component === 'app.php' || $layout_component === '.' || $layout_component === '..') {
+                    continue;
+                }
+                $filename = pathinfo($layout_component, PATHINFO_FILENAME);
+                ob_start();
+                require $currentDir . '/layouts/' . $filename . '.php';
+                // ため込んだ出力を$contentに代入します。
+                $variables[$filename] = ob_get_clean();
+            }
+
+            $data = array_merge($variables, [
+                'content' => $content,
+            ]);
+
+            $layout_file = $currentPath . 'layouts/app';
+            $content = $this->render($layout_file, $data);
+        }
+
+        return $content;
     }
 }

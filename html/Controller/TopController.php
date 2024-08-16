@@ -13,7 +13,7 @@ class TopController extends Controller {
 
     public function index() {
 
-        return $this->render('top', [
+        return $this->render('users/top', [
 
         ]);
     }
@@ -21,7 +21,7 @@ class TopController extends Controller {
     public function detail(
         int $id
     ) {
-        return $this->render('detail', [
+        return $this->render('users/detail', [
             "id" => $id,
         ]);
     }

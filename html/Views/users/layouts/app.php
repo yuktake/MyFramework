@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>User</title>
+        <title></title>
     </head>
     <body>
         <?= $header ?>
